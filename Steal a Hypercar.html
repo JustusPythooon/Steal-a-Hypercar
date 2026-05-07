@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Steal a Hypercar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:linear-gradient(#eef4ff,#ffffff);
+color:#1f2937;
+}
+.app{
+max-width:1100px;
+margin:auto;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+}
+header{
+padding:30px 20px;
+text-align:center;
+}
+header h1{color:#2563eb;font-size:40px;margin:0}
+header p{max-width:700px;margin:10px auto}
+.map{
+margin:0 20px;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 12px 30px rgba(0,0,0,.15)
+}
+.map img{
+width:100%;
+height:350px;
+object-fit:cover
+}
+.btn{
+background:#2563eb;
+color:white;
+padding:12px 22px;
+border-radius:14px;
+text-decoration:none;
+font-weight:bold;
+display:inline-block;
+margin-top:12px
+}
+.content{padding:20px;flex:1}
+.screen{display:none}
+.screen.active{display:block}
+h2{color:#2563eb}
+.back{
+border:none;
+background:none;
+color:#2563eb;
+font-weight:bold;
+cursor:pointer;
+margin-bottom:10px
+}
+.grid{
+display:grid;
+gap:16px;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr))
+}
+.card{
+background:white;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.12);
+overflow:hidden
+}
+.card img{
+width:100%;
+height:160px;
+object-fit:cover
+}
+.card-body{padding:12px}
+.common{color:#16a34a;font-weight:bold}
+.rare{color:#2563eb;font-weight:bold}
+.epic{color:#7c3aed;font-weight:bold}
+.legendary{color:#d97706;font-weight:bold}
+.nav{
+display:flex;
+justify-content:space-around;
+border-top:1px solid #e5e7eb;
+background:white;
+padding:10px
+}
+.nav button{
+border:none;
+background:none;
+font-weight:bold;
+cursor:pointer;
+color:#6b7280
+}
+.nav button.active{color:#2563eb}
+.center{text-align:center}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<!-- HOME -->
+<div id="home" class="screen active">
+<header>
+<h1>Steal a Hypercar</h1>
+<p>Idle‑Game wie <b>Steal a Brainrot</b>. Autos klauen, Events spielen und Geld pro Sekunde verdienen.</p>
+<a class="btn" href="https://www.roblox.com" target="_blank">▶ Jetzt spielen</a>
+</header>
+
+<div class="map">
+<img src="https://placehold.co/1200x400?text=MAP+TITELBILD">
+</div>
+
+<div class="content">
+<h2>🎉 Aktuelles Event</h2>
+<p><b>Disco Taco 🌮</b> – doppeltes Einkommen für alle Autos</p>
+</div>
+</div>
+
+<!-- AUTOS -->
+<div id="cars" class="screen content">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>🚗 Autos</h2>
+
+<div class="grid">
+<div class="card">
+<img src="https://placehold.co/400x200">
+<div class="card-body">
+<b>HyperX GT</b><br>
+💰 5.000 $<br>
+⚡ +25 $ / Sek.<br>
+<span class="common">Common</span>
+</div>
+</div>
+
+<div class="card">
+<img src="https://placehold.co/400x200">
+<div class="card-body">
+<b>Shadow V12</b><br>
+💰 12.000 $<br>
+⚡ +60 $ / Sek.<br>
+<span class="rare">Rare</span>
+</div>
+</div>
+
+<div class="card">
+<img src="https://placehold.co/400x200">
+<div class="card-body">
+<b>Neon Razor</b><br>
+💰 30.000 $<br>
+⚡ +150 $ / Sek.<br>
+<span class="legendary">Legendary</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- EVENTS -->
+<div id="events" class="screen content">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>🎉 Event‑Index</h2>
+
+<div class="grid">
+<div class="card">
+<img src="https://placehold.co/400x200">
+<div class="card-body">
+<b>Disco Taco 🌮</b><br>
+Map: Disco City<br>
++2× Income
+</div>
+</div>
+
+<div class="card">
+<img src="https://placehold.co/400x200">
+<div class="card-body">
+<b>Meteor Shower ☄️</b><br>
+Map: Crater Zone<br>
+Rare Drops
+</div>
+</div>
+</div>
+</div>
+
+<!-- UPDATES -->
+<div id="updates" class="screen content">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>📜 Updates</h2>
+<ul>
+<li><b>1.0</b> – Spiel veröffentlicht</li>
+<li>Autos + Income‑System</li>
+<li>Event‑Index</li>
+<li>Galerie & Discord‑Seite</li>
+</ul>
+</div>
+
+<!-- GALLERY -->
+<div id="gallery" class="screen content">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>🖼️ Galerie</h2>
+<div class="grid">
+<img class="card" src="https://placehold.co/400x200">
+<img class="card" src="https://placehold.co/400x200">
+<img class="card" src="https://placehold.co/400x200">
+</div>
+</div>
+<!-- TOOLS -->
+<div id="tools" class="screen content">
+  <button class="back" onclick="goHome()">← Zurück</button>
+  <h2>🛠️ Tool‑Index</h2>
+
+  <div class="grid">
+
+    <div class="card">
+      <img src="https://placehold.co/400x200?text=Lockpick">
+      <div class="card-body">
+        <b>🔓 Lockpick</b><br>
+        Öffnet Autos schneller<br><br>
+        💰 Kosten: 2.000 $<br>
+        🔁 Rebirth: 0
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://placehold.co/400x200?text=Magnet">
+      <div class="card-body">
+        <b>🧲 Magnet</b><br>
+        Zieht nahe Autos automatisch an<br><br>
+        💰 Kosten: 10.000 $<br>
+        🔁 Rebirth: 1
+      </div>
+    </div>
+
+    <div class="card">
+      https://placehold.co/400x200?text=Jetpack">
+      <div class="card-body">
+        <b>🚀 Jetpack</b><br>
+        Fliege schneller über die Map<br><br>
+        💰 Kosten: 25.000 $<br>
+        🔁 Rebirth: 2
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://placehold.co/400x200?text=Hacker+Tablet">
+      <div class="card-body">
+        <b>💻 Hacker‑Tablet</b><br>
+        +50 % Income dauerhaft<br><br>
+        💰 Kosten: 50.000 $<br>
+        🔁 Rebirth: 3
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DISCORD -->
+<div id="discord" class="screen content center">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>💬 Discord</h2>
+<img src="https://placehold.co/120?text=Discord" style="margin:20px auto">
+<p>Trete unserem Discord bei für Updates, Events, Codes und Community!</p>
+<a class="btn" href="https://discord.gg/DEININVITE" target="_blank">▶ Join Discord</a>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+<button class="active" onclick="show('home',this)">Home</button>
+<button onclick="show('cars',this)">Autos</button>
+<button onclick="show('events',this)">Events</button>
+<button onclick="show('updates',this)">Updates</button>
+<button onclick="show('gallery',this)">Galerie</button>
+<button onclick="show('tools',this)">Tools</button>
+<button onclick="show('discord',this)">Discord</button>
+
+</div>
+
+</div>
+
+<script>
+function show(id,btn){
+document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+}
+function goHome(){
+show('home',document.querySelector('.nav button'));
+}
+</script>
+
+</body>
+</html>
