@@ -142,6 +142,18 @@ transform:translateY(-500px) scale(5);
 opacity:0;
 }
 }
+/* SCREEN ANIMATION */
+.screen{
+display20px);display:none;
+transition:opacity 0.3s ease, transform 0.3s ease;
+}
+
+.screen.active{
+display:block;
+opacity:1;
+transform:translateY(0);
+}
+opacity:0;
 
 
 
@@ -762,11 +774,23 @@ function updateCars() {
   });
 }
 
-function show(id,btn){
-document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
-btn.classList.add('active');
+function show(id, btn){
+
+  const current = document.querySelector('.screen.active');
+
+  if(current){
+    current.classList.remove('active');
+
+    setTimeout(()=>{
+      document.getElementById(id).classList.add('active');
+    },150);
+  } else {
+    document.getElementById(id).classList.add('active');
+  }
+
+  // Nav Buttons
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
 }
 function goHome(){
 show('home',document.querySelector('.nav button'));
