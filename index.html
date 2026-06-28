@@ -789,19 +789,40 @@ function updateCars() {
   });
 }
 
+let currentIndex = 0;
+const screens = ["home","cars","events","updates","gallery","tools","discord","lucky","rebirths","mutations"];
+
 function show(id, btn){
 
+  const newIndex = screens.indexOf(id);
   const current = document.querySelector('.screen.active');
+  const next = document.getElementById(id);
 
-  if(current){
-    current.classList.remove('active');
+  if(current === next) return;
+
+  // Richtung bestimmen
+  if(newIndex > currentIndex){
+    current.classList.add("exit-left");
+  } else {
+    current.classList.add("exit-right");
+  }
+
+  current.classList.remove("active");
+
+  setTimeout(()=>{
+    current.classList.remove("exit-left","exit-right");
+
+    next.classList.add("active");
+    next.style.transform = "translateX(100%)";
 
     setTimeout(()=>{
-      document.getElementById(id).classList.add('active');
-    },150);
-  } else {
-    document.getElementById(id).classList.add('active');
-  }
+      next.style.transform = "translateX(0)";
+      next.style.opacity = "1";
+    },50);
+
+  },300);
+
+  currentIndex = newIndex;
 
   // Nav Buttons
   document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
