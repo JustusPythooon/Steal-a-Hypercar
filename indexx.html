@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Steal a Hypercar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:linear-gradient(#eef4ff,#ffffff);
+color:#1f2937;
+}
+.app{
+max-width:1100px;
+margin:auto;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+}
+header{
+padding:30px 20px;
+text-align:center;
+}
+header h1{color:#2563eb;font-size:40px;margin:0}
+header p{max-width:700px;margin:10px auto}
+.map{
+margin:0 20px;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 12px 30px rgba(0,0,0,.15)
+}
+.map img {  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #020617;
+}
+
+.btn{
+background:#2563eb;
+color:white;
+padding:12px 22px;
+border-radius:14px;
+text-decoration:none;
+font-weight:bold;
+display:inline-block;
+margin-top:12px
+}
+.content{padding:20px;flex:1}
+.screen{display:none}
+.screen.active{display:block}
+h2{color:#2563eb}
+.back{
+border:none;
+background:none;
+color:#2563eb;
+font-weight:bold;
+cursor:pointer;
+margin-bottom:10px
+}
+.grid{
+display:grid;
+gap:16px;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr))
+}
+.card{
+background:white;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.12);
+overflow:hidden
+}
+.card img{
+width:100%;
+height:160px;
+object-fit:contain;
+background:#020617;
+padding:10px;
+}
+.card-body{padding:12px}
+.common{color:#16a34a;font-weight:bold}
+.rare{color:#2563eb;font-weight:bold}
+.epic{color:#7c3aed;font-weight:bold}
+.legendary{color:#d97706;font-weight:bold}
+.nav{
+display:flex;
+justify-content:space-around;
+border-top:1px solid #e5e7eb;
+background:white;
+padding:10px
+}
+.nav button{
+border:none;
+background:none;
+font-weight:bold;
+cursor:pointer;
+color:#6b7280
+}
+.nav button.active{color:#2563eb}
+.center{text-align:center}
+/* INTRO SCREEN */
+#intro{
+transition:opacity 0.5s ease;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
+overflow:hidden;
+}
+
+/* LOGO */
+#logo{
+width:80px;
+opacity:0;
+animation:logoAnim 5s ease forwards;
+}
+
+@keyframes logoAnim{
+0%{
+transform:scale(0.3);
+opacity:0;
+}
+
+50%{
+transform:scale(10);
+opacity:1;
+}
+
+80%{
+transform:scale(7);
+}
+
+100%{
+transform:translateY(-500px) scale(5);
+opacity:0;
+}
+}
+
+
+
+
+</style>
+</head>
+
+<body>
+<!-- LOADING SCREEN -->
+<div id="intro">
+  <img src="https://i.postimg.cc/QMyfk3k2/ncoh-eins-fr-die-kanalbar-removebg-preview.png" id="logo">
+</div>
+
+<div class="app">
+
+
+<!-- HOME -->
+<div id="home" class="screen active">
+<header>
+<h1>Steal a Hypercar</h1>
+<p>Idle‑Game wie <b>Steal a Brainrot</b>. Autos klauen, Events spielen und Geld pro Sekunde verdienen.</p>
+<a class="btn" href="https://ro.blox.com/Ebh5?af_dp=roblox%3A%2F%2Fnavigation%2Fgame_details%3FgameId%3D9888068153&af_web_dp=https%3A%2F%2Fwww.roblox.com%2Fgames%2F139073773671724" target="_blank">▶ Jetzt spielen</a>
+</header>
+
+<div class="map">
+<img src="https://i.postimg.cc/QtjSx4G4/Screenshot-2026-05-07-174545.png">
+</div>
+
+<div class="content">
+<h2>🎉 Aktuelles Event</h2>
+<p><b>Die Fuse Maschine ist released🚗</p>
+</div>
+</div>
+
+<!-- AUTOS -->
+<div id="cars" class="screen content">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>🚗 Autos</h2>
+
+<!-- 🔍 Suche + Filter -->
+<div style="margin-bottom:15px; display:flex; gap:10px; flex-wrap:wrap">
+<input id="search" placeholder="🔍 Auto suchen..." style="padding:10px;border-radius:10px;border:1px solid #ccc;flex:1">
+<select id="filter" style="padding:10px;border-radius:10px;border:1px solid #ccc">
+<option value="all">Alle</option>
+<option value="Common">Common</option>
+<option value="Rare">Rare</option>
+<option value="Epic">Epic</option>
+<option value="Legendary">Legendary</option>
+<option value="Mythic">Mythic</option>
+<option value="Secret">Secret</option>
+</select>
+</div>
+
+<div class="grid">
+
+<!-- BASIC -->
+<div class="card" data-name="Old Car" data-rarity="Common">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=88931258684463&width=420&height=420&format=png">
+<div class="card-body"><b>Old Car</b><br>💰 250 $<br>⚡ +15/s<br><span class="common">Common</span></div>
+</div>
+
+<div class="card" data-name="Truck" data-rarity="Common">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=122233672335719&width=420&height=420&format=png">
+<div class="card-body"><b>Truck</b><br>💰 300 $<br>⚡ +20/s<br><span class="common">Common</span></div>
+</div>
+
+<div class="card" data-name="Land Rover Defender" data-rarity="Rare">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=136172223439119&width=420&height=420&format=png">
+<div class="card-body"><b>Land Rover Defender</b><br>💰 550 $<br>⚡ +35/s<br><span class="rare">Rare</span></div>
+</div>
+
+<div class="card" data-name="Just a Car" data-rarity="Rare">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=123788775280511&width=420&height=420&format=png">
+<div class="card-body"><b>Just a Car</b><br>💰 500 $<br>⚡ +30/s<br><span class="rare">Rare</span></div>
+</div>
+
+<!-- MID -->
+<div class="card" data-name="Feraieo FF" data-rarity="Epic">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=85340739548638&width=420&height=420&format=png">
+<div class="card-body"><b>Feraieo FF</b><br>💰 10.000 $<br>⚡ +400/s<br><span class="epic">Epic</span></div>
+</div>
+
+<div class="card" data-name="Gold Old Car" data-rarity="Legendary">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=125123069327582&width=420&height=420&format=png">
+<div class="card-body"><b>Gold Old Car</b><br>⚡ +4000/s<br><span class="legendary">Legendary</span></div>
+</div>
+
+<div class="card" data-name="Flugzeug" data-rarity="Legendary">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=95410588661419&width=420&height=420&format=png">
+<div class="card-body"><b>Flugzeug ✈️</b><br>⚡ +750000/s<br><span class="legendary">OG</span></div>
+</div>
+
+<!-- MYTHIC DROPS -->
+<div class="card" data-name="Double Decker" data-rarity="Mythic">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=133835550104016&width=420&height=420&format=png">
+<div class="card-body"><b>Double Decker</b><br>⚡ +120000/s<br><span class="epic">Mythic</span></div>
+</div>
+
+<div class="card" data-name="Red Minivan" data-rarity="Mythic">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=80536524087979&width=420&height=420&format=png">
+<div class="card-body"><b>Red Minivan</b><br>⚡ +1200/s<br><span class="epic">Mythic</span></div>
+</div>
+
+<div class="card" data-name="Ferari LaFernando" data-rarity="Mythic">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=80536524087979&width=420&height=420&format=png">
+<div class="card-body"><b>Ferari LaFernando</b><br>⚡ +2000/s<br><span class="epic">Mythic</span></div>
+</div>
+
+<div class="card" data-name="Jeep Renegade 2012" data-rarity="Mythic">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=122726552736799&width=420&height=420&format=png">
+<div class="card-body"><b>Jeep Renegade 2012</b><br>⚡ +45000/s<br><span class="epic">Mythic</span></div>
+</div>
+
+<!-- SECRET DROPS -->
+<div class="card" data-name="Bus" data-rarity="Secret">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=96081915361467&width=420&height=420&format=png">
+<div class="card-body"><b>Bus</b><br>⚡ +500000/s<br><span class="legendary">Secret</span></div>
+</div>
+
+<div class="card" data-name="Black Minivan" data-rarity="Secret">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=74814053620267&width=420&height=420&format=png">
+<div class="card-body"><b>Black Minivan</b><br>⚡ +180000/s<br><span class="legendary">Secret</span></div>
+</div>
+
+<div class="card" data-name="Jeep Grand Chero" data-rarity="Secret">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=74814053620267&width=420&height=420&format=png">
+<div class="card-body"><b>Jeep Grand Chero</b><br>⚡ +250000/s<br><span class="legendary">Secret</span></div>
+</div>
+
+<div class="card" data-name="Swat Van" data-rarity="Secret">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=123008616579786&width=420&height=420&format=png">
+<div class="card-body"><b>Swat Van</b><br>⚡ +350000/s<br><span class="legendary">Secret</span></div>
+</div>
+
+</div>
+</div>
+<!-- REBIRTHS -->
+<div id="rebirths" class="screen content">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>🔄 Rebirths</h2>
+
+<div class="grid">
+
+<!-- Rebirth 1 -->
+<div class="card">
+<div class="card-body">
+<b>🔄 Rebirth 1</b><br><br>
+
+<b>✅ Anforderungen:</b><br>
+💰 1.000.000 $<br>
+🚗 Old Car<br><br>
+
+<b>🎁 Belohnungen:</b><br>
+💸 +0.5x Income<br>
+💵 Startgeld: 5.000 $<br>
+⏱ Zeitbonus: 10s<br>
+🏢 Neuer Floor freigeschaltet
+</div>
+</div>
+
+<!-- Rebirth 2 -->
+<div class="card">
+<div class="card-body">
+<b>🔄 Rebirth 2</b><br><br>
+
+<b>✅ Anforderungen:</b><br>
+💰 10.000.000 $<br>
+🚗 Land Rover Defender<br><br>
+
+<b>🎁 Belohnungen:</b><br>
+💸 +1.5x Income<br>
+💵 Startgeld: 10.000 $<br>
+⏱ Zeitbonus: 10s
+</div>
+</div>
+
+<!-- Rebirth 3 -->
+<div class="card">
+<div class="card-body">
+<b>🔄 Rebirth 3</b><br><br>
+
+<b>✅ Anforderungen:</b><br>
+💰 100.000.000 $<br>
+🚗 Feraieo FF<br><br>
+
+<b>🎁 Belohnungen:</b><br>
+💸 +2x Income<br>
+💵 Startgeld: 100.000 $<br>
+⏱ Zeitbonus: 10s
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- EVENTS -->
+<div id="events" class="screen content">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>🎲 Events / Traits</h2>
+
+<div class="grid">
+
+<!-- 🌬️ Nebelig -->
+<div class="card">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=75518493494958&width=420&height=420&format=png">
+<div class="card-body">
+<b>🌬️ Nebelig</b><br>
+💸 2.5x Money<br>
+🎲 Chance: 20%
+</div>
+</div>
+
+<!-- 🌋 Volcano -->
+<div class="card">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=124665576473988&width=420&height=420&format=png">
+<div class="card-body">
+<b>🌋 Volcano</b><br>
+💸 4x Money<br>
+🎲 Chance: 20%
+</div>
+</div>
+
+<!-- 🌮 Taco -->
+<div class="card">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=136568219255229&width=420&height=420&format=png">
+<div class="card-body">
+<b>🌮 Taco</b><br>
+💸 1.5x Money<br>
+🎲 Chance: 15%
+</div>
+</div>
+
+<!-- 💘 Valentines -->
+<div class="card">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=108315215807680&width=420&height=420&format=png">
+<div class="card-body">
+<b>💘 Valentines</b><br>
+💸 2x Money<br>
+🎲 Chance: 10%
+</div>
+</div>
+
+<!-- ☄️ Meteor -->
+<div class="card">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=81492402115524&width=420&height=420&format=png">
+<div class="card-body">
+<b>☄️ Meteor Shower</b><br>
+💸 3x Money<br>
+🎲 Chance: 12%
+</div>
+</div>
+
+<!-- 🎉 Disco -->
+<div class="card">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=128415625655908&width=420&height=420&format=png">
+<div class="card-body">
+<b>🎉 Disco</b><br>
+💸 2x Money<br>
+🎲 Chance: 18%
+</div>
+</div>
+
+<!-- 🚜 Fendt -->
+<div class="card">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=114620722466733&width=420&height=420&format=png">
+<div class="card-body">
+<b>🚜 Fendt Event</b><br>
+💸 3x Money<br>
+🎲 Chance: 8%<br><br>
+
+🎵 Musik:<br>
+<audio controls src="https://www.roblox.com/asset/?id=73533686583478"></audio>
+</div>
+</div>
+
+<!-- ⚡ Speed -->
+<div class="card">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=109723981141260&width=420&height=420&format=png">
+<div class="card-body">
+<b>⚡ Speed Madness</b><br>
+💸 2x Money<br>
+🚀 schneller laufen
+</div>
+</div>
+
+<!-- 🌳 Forest -->
+<div class="card">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=113258193653969&width=420&height=420&format=png">
+<div class="card-body">
+<b>🌳 Forest</b><br>
+💸 2x Money<br>
+🎲 Chance: 8%
+</div>
+</div>
+
+<!-- 🌑 Night -->
+<div class="card">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=98740245568211&width=420&height=420&format=png">
+<div class="card-body">
+<b>🌑 Night Event</b><br>
+🎰 Spezial Wheel + Drops
+</div>
+</div>
+
+<!-- 👑 ADMIN -->
+<div class="card">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=73900118814870&width=420&height=420&format=png">
+<div class="card-body">
+<b>👑 Admin Event</b><br><br>
+
+⚠️ Nur vom Admin aktivierbar!<br>
+🌀 Einziges Event mit <b>Void Mutation</b><br><br>
+
+🎵 Musik:<br>
+<audio controls src="https://www.roblox.com/asset/?id=84905165512421"></audio>
+</div>
+</div>
+
+</div>
+</div>
+<!-- MUTATIONS -->
+<div id="mutations" class="screen content">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>🧬 Mutations</h2>
+
+<div class="grid">
+
+<!-- DEFAULT -->
+<div class="card">
+  <img src="https://static.wikia.nocookie.net/stealabr/images/4/41/Default_Mutation_Icon.png/revision/latest?cb=20251112160311">
+  <div class="card-body">
+    <b>Default</b><br><br>
+    🎲 Chance: 100%<br>
+    💸 Multiplier: 1x<br>
+    📊 Index Boost: 0.5x<br><br>
+    ⚪ Standard Mutation
+  </div>
+</div>
+
+<!-- GOLD -->
+<div class="card">
+  <img src="https://static.wikia.nocookie.net/stealabr/images/0/0f/Gold_Mutation_Icon.png/revision/latest?cb=20251014022450">
+  <div class="card-body">
+    <b>Golden</b><br><br>
+    🎲 Chance: 10%<br>
+    💸 Multiplier: 1.25x<br>
+    📊 Index Boost: 0.5x<br><br>
+    ✨ Bessere Version eines Autos
+  </div>
+</div>
+
+<!-- ADMIN / VOID -->
+<div class="card">
+  <img src="https://static.wikia.nocookie.net/stealabr/images/7/7b/Galaxy_Mutation_Icon.png/revision/latest?cb=20251014023008">
+  <div class="card-body">
+    <b>Admin / Void</b><br><br>
+    
+    🎲 Chance: 0.5%<br>
+    💸 Multiplier: 5x<br>
+    📊 Index Boost: 0.5x<br><br>
+
+    ⚠️ Nur durch Events erhältlich<br>
+    👑 Nur im <b>Admin Event</b><br>
+    🌀 Seltenste Mutation im Spiel
+  </div>
+</div>
+
+</div>
+</div>
+<!-- UPDATES -->
+<div id="updates" class="screen content">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>📜 Updates</h2>
+<ul>
+<li><b>1.5</b> – Die Fuse Maschine</li>
+<li>Die Fuse Maschine mit neuen Autos</li>
+<li>Website</li>
+<li>Viele neue Events</li>
+</ul>
+</div>
+<!-- LUCKY BLOCKS -->
+<div id="lucky" class="screen content">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>🎁 Lucky Blocks</h2>
+
+<div class="grid">
+
+<!-- MYTHIC LUCKY BLOCK -->
+<div class="card">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=94713873420887&width=420&height=420&format=png">
+<div class="card-body">
+<b>Mythic Lucky Block</b><br><br>
+💰 Kosten: 1.000 $<br>
+⏱ Öffnet in: 30s<br><br>
+
+<b>🎲 Drops:</b><br>
+Double Decker → 5%<br>
+Red Minivan → 55%<br>
+Ferari LaFernando → 30%<br>
+Jeep Renegade → 10%
+</div>
+</div>
+
+<!-- SECRET LUCKY BLOCK -->
+<div class="card">
+<img src="https://www.roblox.com/asset-thumbnail/image?assetId=82483967003834&width=420&height=420&format=png">
+<div class="card-body">
+<b>Secret Lucky Block</b><br><br>
+💰 Kosten: 200.000 $<br>
+⏱ Öffnet in: 180s<br><br>
+
+<b>🎲 Drops:</b><br>
+Bus → 5%<br>
+Black Minivan → 55%<br>
+Jeep Grand Chero → 30%<br>
+Swat Van → 10%
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- GALLERY -->
+<div id="gallery" class="screen content">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>🖼️ Galerie</h2>
+<div class="grid">
+<img class="card" src="https://placehold.co/400x200">
+<img class="card" src="https://placehold.co/400x200">
+<img class="card" src="https://placehold.co/400x200">
+</div>
+</div>
+<!-- TOOLS -->
+<div id="tools" class="screen content">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>🛠️ Tools</h2>
+
+<div class="grid">
+
+<!-- Bat -->
+<div class="card">
+  <img src="https://www.roblox.com/asset-thumbnail/image?assetId=117261602321936&width=420&height=420&format=png">
+  <div class="card-body">
+    <b>Bat 🏏</b><br>
+    Ein Schläger um Diebe zu schlagen!<br><br>
+    💰 Kostenlos<br>
+    🔁 Rebirth: 0<br>
+    ⭐ Starter Tool
+  </div>
+</div>
+
+<!-- Slap -->
+<div class="card">
+  <img src="https://www.roblox.com/asset-thumbnail/image?assetId=113262145299442&width=420&height=420&format=png">
+  <div class="card-body">
+    <b>Slap 👋</b><br>
+    Haue deine Feinde weg!<br><br>
+    💰 500 $<br>
+    🔁 Rebirth: 0
+  </div>
+</div>
+
+<!-- Speed Coil -->
+<div class="card">
+  <img src="https://www.roblox.com/asset-thumbnail/image?assetId=139912333610258&width=420&height=420&format=png">
+  <div class="card-body">
+    <b>Speed Coil ⚡</b><br>
+    Sei schneller als die anderen Spieler<br><br>
+    💰 750 $<br>
+    🔁 Rebirth: 0
+  </div>
+</div>
+
+<!-- Trap -->
+<div class="card">
+  <img src="https://www.roblox.com/asset-thumbnail/image?assetId=114660607744334&width=420&height=420&format=png">
+  <div class="card-body">
+    <b>Trap 🪤</b><br>
+    Trappe einmalig einen Freund<br><br>
+    💰 250 $<br>
+    🔁 Rebirth: 0
+  </div>
+</div>
+
+<!-- Iron Slap -->
+<div class="card">
+  <img src="https://www.roblox.com/asset-thumbnail/image?assetId=114224901857028&width=420&height=420&format=png">
+  <div class="card-body">
+    <b>Iron Slap 💥</b><br>
+    Schleudere Feinde hoch in die Luft<br><br>
+    💰 2.500 $<br>
+    🔁 Rebirth: 1
+  </div>
+</div>
+
+<!-- Gravity Coil -->
+<div class="card">
+  <img src="https://www.roblox.com/asset-thumbnail/image?assetId=77536755754503&width=420&height=420&format=png">
+  <div class="card-body">
+    <b>Gravity Coil 🪶</b><br>
+    Springe höher als die anderen<br><br>
+    💰 3.000 $<br>
+    🔁 Rebirth: 1
+  </div>
+</div>
+
+<!-- Bee Launcher -->
+<div class="card">
+  <img src="https://www.roblox.com/asset-thumbnail/image?assetId=112032197873072&width=420&height=420&format=png">
+  <div class="card-body">
+    <b>Bee Launcher 🐝</b><br>
+    Schieße mit Bienen!<br><br>
+    💰 250 $<br>
+    🔁 Rebirth: 1
+  </div>
+</div>
+
+<!-- Gold Slap -->
+<div class="card">
+  <img src="https://www.roblox.com/asset-thumbnail/image?assetId=133650310635243&width=420&height=420&format=png">
+  <div class="card-body">
+    <b>Gold Slap ✨</b><br>
+    Schleudere Gegner weiter weg!<br><br>
+    💰 15.000 $<br>
+    🔁 Rebirth: 2
+  </div>
+</div>
+
+<!-- Coil Combo -->
+<div class="card">
+  <img src="https://www.roblox.com/asset-thumbnail/image?assetId=76434485141838&width=420&height=420&format=png">
+  <div class="card-body">
+    <b>Coil Combo 🔄</b><br>
+    Schnell + hoch springen!<br><br>
+    💰 20.000 $<br>
+    🔁 Rebirth: 2
+  </div>
+</div>
+
+<!-- Rage Table -->
+<div class="card">
+  <img src="https://www.roblox.com/asset-thumbnail/image?assetId=92147934480210&width=420&height=420&format=png">
+  <div class="card-body">
+    <b>Rage Table 😡</b><br>
+    Schieße mit Bienen!<br><br>
+    💰 25.000 $<br>
+    🔁 Rebirth: 2
+  </div>
+</div>
+
+</div>
+</div>
+<!-- DISCORD -->
+<div id="discord" class="screen content center">
+<button class="back" onclick="goHome()">← Zurück</button>
+<h2>💬 Discord</h2>
+<img src="https://placehold.co/120?text=Discord" style="margin:20px auto">
+<p>Trete unserem Discord bei für Updates, Events, Codes und Community!</p>
+<a class="btn" href="https://discord.gg/ZN97GVAT" target="_blank">▶ Join Discord</a>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+<button class="active" onclick="show('home',this)">Home</button>
+<button onclick="show('cars',this)">Autos</button>
+<button onclick="show('lucky',this)">Lucky Blocks</button>
+<button onclick="show('events',this)">Events / Traits</button>
+<button onclick="show('rebirths',this)">Rebirths</button>
+<button onclick="show('mutations',this)">Mutations</button>
+<button onclick="show('tools',this)">Tools</button>
+<button onclick="show('updates',this)">Updates</button>
+<button onclick="show('gallery',this)">Galerie</button>
+<button onclick="show('discord',this)">Discord</button>
+
+</div>
+
+</div>
+<script>
+window.onload = () => {
+  setTimeout(()=>{
+    const intro = document.getElementById("intro");
+    intro.style.opacity = "0";
+
+    setTimeout(()=>{
+      intro.remove();
+    },500);
+
+  },5000);
+};
+
+const searchInput = document.getElementById("search");
+const filterSelect = document.getElementById("filter");
+
+searchInput.addEventListener("input", updateCars);
+filterSelect.addEventListener("change", updateCars);
+
+function updateCars() {
+  const search = searchInput.value.toLowerCase();
+  const filter = filterSelect.value;
+
+  document.querySelectorAll("#cars .card").forEach(card => {
+    const name = card.dataset.name.toLowerCase();
+    const rarity = card.dataset.rarity;
+
+    const matchSearch = name.includes(search);
+    const matchFilter = filter === "all" || rarity === filter;
+
+    if (matchSearch && matchFilter) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+function show(id,btn){
+document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+}
+function goHome(){
+show('home',document.querySelector('.nav button'));
+}
+</script>
+
+</body>
+</html>
