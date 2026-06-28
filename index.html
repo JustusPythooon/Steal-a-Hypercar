@@ -91,19 +91,15 @@ background:white;
 padding:10px
 }
 .nav button{
-position:relative;
-overflow:hidden;
-transition:transform 0.1s ease, color 0.2s;
+border:none;
+background:none;
+font-weight:bold;
+cursor:pointer;
+color:#6b7280
 }
 
-/* 👇 Beim Klick */
-.nav button:active{
-transform:scale(0.9);
-}
-
-/* 👇 Hover (PC) */
-.nav button:hover{
-color:#2563eb;
+.nav button.active{
+color:#2563eb
 }
 .center{text-align:center}
 /* INTRO SCREEN */
@@ -360,11 +356,12 @@ opacity:0;
 <div id="events" class="screen content">
 <button class="back" onclick="goHome()">← Zurück</button>
 <h2>🎲 Events / Traits</h2>
-
+<input id="searchEvents" placeholder="🔍 Event suchen..."
+style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-bottom:10px">
 <div class="grid">
 
 <!-- 🌬️ Nebelig -->
-<div class="card">
+<div class="card" data-name="Nebelig">
 <img src="https://www.roblox.com/asset-thumbnail/image?assetId=75518493494958&width=420&height=420&format=png">
 <div class="card-body">
 <b>🌬️ Nebelig</b><br>
@@ -374,7 +371,7 @@ opacity:0;
 </div>
 
 <!-- 🌋 Volcano -->
-<div class="card">
+<div class="card" data-name="Volcano">
 <img src="https://i.postimg.cc/Bn5hWYPC/volcano.png">
 <div class="card-body">
 <b>🌋 Volcano</b><br>
@@ -384,7 +381,7 @@ opacity:0;
 </div>
 
 <!-- 🌮 Taco -->
-<div class="card">
+<div class="card" data-name="Taco">
 <img src="https://i.postimg.cc/J7gYjBWz/nun-noch-fr-taco-mach-aber-removebg-preview.png">
 <div class="card-body">
 <b>🌮 Taco</b><br>
@@ -396,7 +393,7 @@ opacity:0;
 </div>
 
 <!-- 💘 Valentines -->
-<div class="card">
+<div class="card" data-name="Valentines">
 <img src="https://i.postimg.cc/wxP4Dsdx/jetzt-valendienstag-removebg-preview.png">
 <div class="card-body">
 <b>💘 Valentines</b><br>
@@ -406,7 +403,7 @@ opacity:0;
 </div>
 
 <!-- ☄️ Meteor -->
-<div class="card">
+<div class="card" data-name="Meteor">
 <img src="https://i.postimg.cc/h4wZV7qP/super-jetzt-noch-meteroit-re-removebg-preview.png">
 <div class="card-body">
 <b>☄️ Meteor Shower</b><br>
@@ -416,7 +413,7 @@ opacity:0;
 </div>
 
 <!-- 🎉 Disco -->
-<div class="card">
+<div class="card" data-name="Disco">
 <img src="https://i.postimg.cc/tRfvFVHg/jedes-einzeln-fange-mit-disc-removebg-preview.png">
 <div class="card-body">
 <b>🎉 Disco</b><br>
@@ -426,7 +423,7 @@ opacity:0;
 </div>
 
 <!-- 🚜 Fendt -->
-<div class="card">
+<div class="card" data-name="Fendt">
 <img src="https://i.postimg.cc/SKSFMp72/Screenshot-2026-06-28-115221.png">
 <div class="card-body">
 <b>🚜 Fendt Event</b><br>
@@ -439,7 +436,7 @@ opacity:0;
 </div>
 
 <!-- ⚡ Speed -->
-<div class="card">
+<div class="card" data-name="Speed">
 <img src="https://www.roblox.com/asset-thumbnail/image?assetId=109723981141260&width=420&height=420&format=png">
 <div class="card-body">
 <b>⚡ Speed Madness</b><br>
@@ -449,7 +446,7 @@ opacity:0;
 </div>
 
 <!-- 🌳 Forest -->
-<div class="card">
+<div class="card" data-name="Forest">
 <img src="https://www.roblox.com/asset-thumbnail/image?assetId=113258193653969&width=420&height=420&format=png">
 <div class="card-body">
 <b>🌳 Forest</b><br>
@@ -459,7 +456,7 @@ opacity:0;
 </div>
 
 <!-- 🌑 Night -->
-<div class="card">
+<div class="card" data-name="Night">
 <img src="https://www.roblox.com/asset-thumbnail/image?assetId=98740245568211&width=420&height=420&format=png">
 <div class="card-body">
 <b>🌑 Night Event</b><br>
@@ -468,7 +465,7 @@ opacity:0;
 </div>
 
 <!-- 👑 ADMIN -->
-<div class="card">
+<div class="card" data-name="Admin">
 <img src="https://www.roblox.com/asset-thumbnail/image?assetId=73900118814870&width=420&height=420&format=png">
 <div class="card-body">
 <b>👑 Admin Event</b><br><br>
@@ -782,19 +779,17 @@ function updateCars() {
     }
   });
 }
-document.querySelectorAll('.nav button').forEach(button=>{
-  button.addEventListener("click",function(e){
-    const circle = document.createElement("span");
-    
-    const size = Math.max(this.offsetWidth, this.offsetHeight);
-    circle.style.width = circle.style.height = size + "px";
+document.getElementById("searchEvents").addEventListener("input", function(){
+  const search = this.value.toLowerCase();
 
-    circle.style.left = e.offsetX - size/2 + "px";
-    circle.style.top = e.offsetY - size/2 + "px";
+  document.querySelectorAll("#events .card").forEach(card=>{
+    const name = card.dataset.name.toLowerCase();
 
-    this.appendChild(circle);
-
-    setTimeout(()=>circle.remove(),500);
+    if(name.includes(search)){
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
   });
 });
 
